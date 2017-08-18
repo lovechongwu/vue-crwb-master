@@ -6,6 +6,7 @@ import router from './router'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 import 'babel-polyfill'
+import store from './store/store'
 
 Vue.use(iView)
 
@@ -14,7 +15,28 @@ Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  store,
   router,
   template: '<App/>',
   components: { App }
 })
+
+Vue.prototype.setCookie = (name, value, expiredays) => {
+  var nowDate = new Date()
+  nowDate.setDate(nowDate.getDate() + expiredays)
+  document.cookie = name + '=' + escape(value) + ((expiredays == null) ? '' : ';expires=' + nowDate.toGMTString())
+}
+
+/* 获取cookie */
+Vue.prototype.getCookie = (name) => {
+  var arr = ''
+  var reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)')
+  if (arr === document.cookie.match(reg)) { return (arr[2]) } else { return null }
+}
+
+Vue.prototype.deleteCookie = (name, value, expiredays) => {
+  var exp = new Date()
+  exp.setTime(exp.getTime() - 1)
+  var cval = Vue.prototype.getCookie(name)
+  if (cval != null) { document.cookie = name + '=' + cval + ';expires=' + exp.toGMTString() }
+}
