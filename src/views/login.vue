@@ -35,7 +35,7 @@
     },
     methods: {
       loginSuccess () {
-        this.$router.push('/manage')
+//        this.$router.push('/')
       }
     }
   }

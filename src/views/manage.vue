@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100%;">
+  <div class="page-content">
     <head-top></head-top>
     <Menu theme="dark" :active-name="activeName" class="left_menu menu">
       <Menu-item name="home">
@@ -52,11 +52,18 @@
 </script>
 
 <style>
+  .page-content{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
   .left_menu{
-    min-height: calc(100% - 90px);
+    height: 100%;
     width: 200px!important;
     text-align: left;
     float: left;
+    z-index: 1000;
+    position: fixed;
   }
   .left_menu a{
     color: inherit;
@@ -69,8 +76,10 @@
     background: none !important;
   }
   .rightContent{
-    width: calc(100% - 200px);
-    min-height: calc(100% - 90px);
-    float: left;
+    width: 100%;
+    height: 100%;
+    float: right;
+    overflow: auto;
+    padding-left: 210px;
   }
 </style>

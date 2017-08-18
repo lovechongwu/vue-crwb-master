@@ -13,6 +13,11 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
+      path: '/login',
+      name: 'login',
+      component: login
+    },
+    {
       path: '/',
       component: manage,
       children: [
@@ -47,11 +52,7 @@ export default new Router({
           meta: ['基础数据', '故障规范']
         }
       ]
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component: login
     }
   ]
 })
+

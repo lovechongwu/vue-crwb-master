@@ -33,6 +33,7 @@
   .headTop{
     height: 90px;
     border-bottom: 1px solid #ccc;
+    z-index: 1001;
   }
   .headTip{
     height: 30px;
