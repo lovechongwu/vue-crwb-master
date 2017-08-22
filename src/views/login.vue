@@ -1,30 +1,33 @@
 <template>
-  <div class="login_div">
+  <div class="login_div text-center">
     <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
       <h1>登录</h1>
       <div class="login_content">
-        <Form-item label="用户名" prop="userName">
-          <Input placeholder="请输入用户名" v-model="formValidate.userName"></Input>
+        <Form-item label="用户名" prop="username">
+          <Input type="text" placeholder="请输入用户名" v-model="formValidate.username"></Input>
         </Form-item>
         <Form-item label="密码" prop="password">
-          <Input placeholder="请输入密码" v-model="formValidate.password"></Input>
+          <Input type="password" placeholder="请输入密码" v-model="formValidate.password"></Input>
         </Form-item>
       </div>
-      <Button type="primary" class="loginBtn" @click="loginSuccess">登录</Button>
+      <Button type="primary" class="loginBtn" @click="isLogin">登录</Button>
     </Form>
   </div>
 </template>
 
 <script>
+  /* eslint-disable arrow-spacing */
+  import axios from 'axios'
+//  import qs from 'qs'
   export default {
     data () {
       return {
         formValidate: {
-          userName: '',
+          username: '',
           password: ''
         },
         ruleValidate: {
-          userName: [
+          username: [
             {required: true, message: '用户名不能为空', trriger: 'blur'}
           ],
           password: [
@@ -34,8 +37,29 @@
       }
     },
     methods: {
-      loginSuccess () {
-//        this.$router.push('/')
+      isLogin () {
+        let that = this
+        if (!that.formValidate.username) {
+          this.$Notice.error({
+            title: '请填写用户名'
+          })
+          return
+        }
+        if (!that.formValidate.password) {
+          this.$Notice.error({
+            title: '请填写密码'
+          })
+          return
+        }
+        axios.post('api/login?username=' + that.formValidate.username.trim('') + '&password=' + that.formValidate.password.trim('') + '')
+          .then(function (res) {
+            that.$store.commit('saveAdminInfo', res.data.objCollection[0])
+            console.log(res.data.objCollection[0])
+            that.$router.push('/manage')
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
       }
     }
   }

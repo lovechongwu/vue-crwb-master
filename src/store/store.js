@@ -9,7 +9,6 @@ Vue.use(Vuex)
 const state = {
   adminInfo: {}
 }
-
 const mutations = {
   saveAdminInfo (state, adminInfo) {
     state.adminInfo = adminInfo

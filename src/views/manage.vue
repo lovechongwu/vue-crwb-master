@@ -41,6 +41,7 @@
       }
     },
     mounted: function () {
+      console.log(this.$store.state.adminInfo.ming)
       this.activeName = this.$route.name
     },
     components: {

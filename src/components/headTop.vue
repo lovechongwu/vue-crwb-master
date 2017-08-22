@@ -14,7 +14,7 @@
       </Col>
       <Col :span="24" class="headLogo">
         <span class="pull-left logoTitle">南京从容信息科技有限公司</span>
-        <div class="pull-right">管理员</div>
+        <div class="pull-right">{{user.ming}}</div>
       </Col>
     </Row>
   </div>
@@ -24,6 +24,11 @@
   export default{
     data () {
       return {
+      }
+    },
+    computed: {
+      user () {
+        return this.$store.state.adminInfo
       }
     }
   }
