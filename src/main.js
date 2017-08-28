@@ -18,7 +18,23 @@ new Vue({
   store,
   router,
   template: '<App/>',
-  components: { App }
+  components: { App },
+  watch: {
+    '$route': 'checkLogin'
+  },
+  created () {
+    this.checkLogin()
+  },
+  methods: {
+    checkLogin () {
+      // 检查是否存在session
+      // if (!this.getCookie('session')) {
+      //   this.$router.push('/login')
+      // } else {
+      //   this.$router.push('/manage')
+      // }
+    }
+  }
 })
 
 Vue.prototype.setCookie = (name, value, expiredays) => {
