@@ -21,38 +21,5 @@ new Vue({
   components: { App },
   watch: {
     '$route': 'checkLogin'
-  },
-  created () {
-    this.checkLogin()
-  },
-  methods: {
-    checkLogin () {
-      // 检查是否存在session
-      // if (!this.getCookie('session')) {
-      //   this.$router.push('/login')
-      // } else {
-      //   this.$router.push('/manage')
-      // }
-    }
   }
 })
-
-Vue.prototype.setCookie = (name, value, expiredays) => {
-  var nowDate = new Date()
-  nowDate.setDate(nowDate.getDate() + expiredays)
-  document.cookie = name + '=' + escape(value) + ((expiredays == null) ? '' : ';expires=' + nowDate.toGMTString())
-}
-
-/* 获取cookie */
-Vue.prototype.getCookie = (name) => {
-  var arr = ''
-  var reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)')
-  if (arr === document.cookie.match(reg)) { return (arr[2]) } else { return null }
-}
-
-Vue.prototype.deleteCookie = (name, value, expiredays) => {
-  var exp = new Date()
-  exp.setTime(exp.getTime() - 1)
-  var cval = Vue.prototype.getCookie(name)
-  if (cval != null) { document.cookie = name + '=' + cval + ';expires=' + exp.toGMTString() }
-}

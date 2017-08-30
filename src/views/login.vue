@@ -26,8 +26,9 @@
 </template>
 
 <script>
-  /* eslint-disable arrow-spacing */
+  /* eslint-disable arrow-spacing,space-before-blocks,no-unused-vars */
   import axios from 'axios'
+  import * as ac from '../data'
 //  import qs from 'qs'
   export default {
     data () {
@@ -47,7 +48,21 @@
         }
       }
     },
+    mounted () {
+      this.rememberPwd()
+    },
     methods: {
+      rememberPwd () {
+        if (ac.getCookie('loginName') || ac.getCookie('loginPwd')) {
+          this.formValidate.username = (ac.getCookie('loginName') !== null) ? ac.getCookie('loginName') : ''
+          this.formValidate.password = (ac.getCookie('loginPwd') !== null) ? ac.getCookie('loginPwd') : ''
+        }
+        if (ac.getCookie('loginPwd') !== '' && ac.getCookie('loginPwd') !== null) {
+          this.formValidate.remember = true
+        } else {
+          this.formValidate.remember = false
+        }
+      },
       isLogin () {
         let that = this
         if (!that.formValidate.username) {
@@ -65,14 +80,28 @@
         axios.post('api/login?username=' + that.formValidate.username.trim('') + '&password=' + that.formValidate.password.trim('') + '')
           .then(function (res) {
             that.$store.commit('saveAdminInfo', res.data.objCollection[0])
-            let expireDays = 1000 * 60 * 60 * 24 * 15
-            that.setCookie('session', res.data.session, expireDays)
-            console.log(res.data.session)
-            that.$router.push('/manage')
+            if (res.data.error && res.data.error.code === 200) {
+              ac.deleteCookie('loginName')
+              ac.deleteCookie('loginPwd')
+              if (that.formValidate.remember === true) {
+                ac.setCookie('loginName', that.formValidate.username, {expires: 7 * 24 * 60 * 60})
+                ac.setCookie('loginPwd', that.formValidate.password, {expires: 7 * 24 * 60 * 60})
+              }
+              that.$router.push('/manage')
+            } else {
+              that.$Notice.error({
+                title: '用户名或密码错误！'
+              })
+            }
           })
           .catch(function (error) {
             console.log(error)
           })
+      }
+    },
+    watch: {
+      'formValidate.username' (newValue, oldValue) {
+        this.rememberPwd()
       }
     }
   }

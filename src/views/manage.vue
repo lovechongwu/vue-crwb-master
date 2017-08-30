@@ -34,6 +34,7 @@
 
 <script>
   import headTop from '../components/headTop'
+  import * as ac from '../data'
   export default{
     data () {
       return {
@@ -41,8 +42,9 @@
       }
     },
     mounted: function () {
-      console.log(this.$store.state.adminInfo.ming)
+//      console.log(this.$store.state.adminInfo.ming)
       this.activeName = this.$route.name
+      console.log(ac.getCookie('loginName'))
     },
     components: {
       headTop
